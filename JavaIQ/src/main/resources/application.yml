@@ -1,0 +1,9 @@
+server:
+  servlet:
+    context-path: /api
+
+api:
+  key: 68fadb44593d4273a3783baa310424dd
+
+baseUrl: https://api.rawg.io/api
+

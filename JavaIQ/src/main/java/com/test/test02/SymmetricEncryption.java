@@ -12,6 +12,7 @@ public class SymmetricEncryption {
 
     public static SecretKey getSecretKey() throws Exception {
         KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
+//        AES Key Size it can be 192, 256
         keyGenerator.init(128);
         return keyGenerator.generateKey();
     }
@@ -21,6 +22,8 @@ public class SymmetricEncryption {
         return new SecretKeySpec(decodedKey, "AES");
     }
 
+//    Initialization Vector produces a randomIV to ensure that
+//    same plain text doesn't yield the same cipher Text
     public static byte[] generateIV() {
         byte[] iv = new byte[16];
         new SecureRandom().nextBytes(iv);
@@ -54,6 +57,8 @@ public class SymmetricEncryption {
     }
 
     public static void EncryptionNDecryption() throws Exception {
+//        Padding is required to ensure that the
+//        input data fits into a fixed block size
         String algorithm = "AES/CBC/PKCS5Padding";
         String input = "Secret Property!";
 

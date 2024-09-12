@@ -7,3 +7,8 @@ api:
 
 baseUrl: https://api.rawg.io/api
 
+#logging:
+#  level:
+#    org:
+#      springframework:
+#        security: DEBUG

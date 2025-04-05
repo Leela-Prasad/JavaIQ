@@ -7,9 +7,13 @@ import com.test.test05.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,7 +27,7 @@ public class EmployeeService {
 
     private final int PAGE_SIZE = 1000;
 
-    public EmployeeResponse getEmployees(int pageNumber) {
+    public EmployeeResponse getEmployeesWithPagination(int pageNumber) {
         Page<EmployeeEntity> page = employeeRepository.findAll(PageRequest.of(pageNumber-1, PAGE_SIZE));
 
         return EmployeeResponse.builder()
@@ -33,6 +37,22 @@ public class EmployeeService {
                         .data(EmployeeMapper.INSTANCE.employeeEntityListToEmployeeDTOList(page.stream().collect(Collectors.toList())))
                         .build();
 
+    }
+
+    public List<EmployeeEntity> getAllEmployees() {
+        return employeeRepository.findByOrderByFirstNameAsc();
+    }
+
+    public List<EmployeeEntity> getEmployeesWithStartPrefix(String prefix) {
+        return employeeRepository.findByFirstNameStartingWithIgnoreCase(prefix);
+    }
+
+    public Optional<EmployeeEntity> getEmployee(int empNo) {
+        return employeeRepository.findByEmpNo(empNo);
+    }
+
+    public List<EmployeeEntity> getEmployeesGreaterThanDate(Date date) {
+        return employeeRepository.findByHireDateGreaterThan(date);
     }
 
     private String getNextUrl(int pageNumber) {
